@@ -160,19 +160,26 @@ if time_range:
     try:
         start, end = map(int, time_range.split('-'))
 
+        result_text = f"Day: {day}\nTime: {start}:00 - {end}:00\n\n"
+
         st.markdown("---")
         st.subheader(f"✅ Members free for full slot {start}:00 - {end}:00")
 
         full_free = check_availability(day, start, end)
 
+        result_text += "Members free for full slot:\n"
         if full_free:
             for m in full_free:
-                card(m, "#d1ffd6")  # greenish card
+                card(m, "#d1ffd6")
+                result_text += f"• {m}\n"
         else:
             card("No one free for the whole slot.", "#ffd1d1")
+            result_text += "No one free for the full slot.\n"
 
         st.markdown("---")
-        st.subheader("⏱ Hour-by-Hour Availability")
+        st.subheader("⏱ Hour-by-Hour Availability\n")
+
+        result_text += "\nHour-by-hour availability:\n"
 
         current = start
         while current < end:
@@ -180,13 +187,39 @@ if time_range:
             hour_members = check_availability(day, current, next_hour)
 
             st.markdown(f"**{current}:00 - {next_hour}:00**")
+            result_text += f"\n{current}:00 - {next_hour}:00\n"
+
             if hour_members:
                 for m in hour_members:
-                    card(m, "#e8f0ff")  # light blue card
+                    card(m, "#e8f0ff")
+                    result_text += f"   • {m}\n"
             else:
                 card("No one free in this hour", "#ffd1d1")
+                result_text += "   ❌ No one free\n"
 
             current += 1
 
+        # ---------------- COPY BUTTON ----------------
+        st.markdown("""
+        <button onclick="navigator.clipboard.writeText(document.getElementById('result_text').innerText)"
+        style="padding:10px 16px; font-size:16px; border-radius:6px; background:#444; color:white; margin-top:10px;">
+        📋 Copy Result
+        </button>
+        """, unsafe_allow_html=True)
+
+        st.markdown(f"<pre id='result_text' style='display:none;'>{result_text}</pre>", unsafe_allow_html=True)
+
+        # ---------------- DOWNLOAD BUTTON ----------------
+        st.download_button(
+            label="🖨️ Download Result (.txt for Print / PDF)",
+            data=result_text,
+            file_name=f"{day}_{start}-{end}_availability.txt",
+            mime="text/plain"
+        )
+
     except:
         st.error("⚠️ Use format like 9-12")
+
+   
+
+    

@@ -123,11 +123,11 @@ def check_availability(day, start, end):
 import streamlit as st
 
 st.set_page_config(page_title="JPEG Availability", page_icon="📸", layout="centered")
+
 def card(text, color="#1e1e1e"):
     st.markdown(
         f"""
         <div style="
-            background:{color};
             padding:12px 18px;
             border-radius:12px;
             margin-bottom:10px;

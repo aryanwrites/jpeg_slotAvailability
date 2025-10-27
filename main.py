@@ -90,7 +90,7 @@ def check_availability(day, start, end):
     return free_members
 
 # -------------------- UI --------------------
-st.title("📸 Photography Club Availability Checker")
+st.title("JPEG 1st Years Slot Availablity")
 
 day = st.selectbox("Select Day", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])
 time_range = st.text_input("Enter time slot (e.g., 9-12)").strip()

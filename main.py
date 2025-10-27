@@ -1,5 +1,35 @@
 import streamlit as st
 
+st.markdown("""
+<style>
+html, body, [class*="css"]  {
+    color: #ffffff !important;
+    background-color: #000000 !important;
+}
+
+/* Make DataFrame text readable */
+.dataframe, .stDataFrame table, .stDataFrame td, .stDataFrame th {
+    color: #ffffff !important;
+    background-color: #111111 !important;
+}
+
+/* Dropdown & text input */
+input, select, textarea {
+    color: #ffffff !important;
+    background-color: #222222 !important;
+}
+
+/* Buttons */
+.stButton > button {
+    color: white !important;
+    background-color: #333333 !important;
+    border-radius: 8px;
+    border: 1px solid #555 !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
 # -------------------- DATA --------------------
 availability = {
     "Shiveshwar & Harshil": {
@@ -93,17 +123,16 @@ def check_availability(day, start, end):
 import streamlit as st
 
 st.set_page_config(page_title="JPEG Availability", page_icon="📸", layout="centered")
-
-def card(text, color):
+def card(text, color="#1e1e1e"):
     st.markdown(
         f"""
         <div style="
             background:{color};
             padding:12px 18px;
             border-radius:12px;
-            margin-bottom:8px;
+            margin-bottom:10px;
             font-size:16px;
-            border:1px solid #dadada;">
+            border:1px solid #444;">
             {text}
         </div>
         """,

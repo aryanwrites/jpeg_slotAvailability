@@ -95,20 +95,29 @@ import streamlit as st
 st.set_page_config(page_title="JPEG Availability", page_icon="📸", layout="centered")
 
 def card(text, color):
-    st.markdown(
-        f"""
-        <div style="
-            background:{color};
-            padding:12px 18px;
-            border-radius:12px;
-            margin-bottom:8px;
-            font-size:16px;
-            border:1px solid #dadada;">
-            {text}
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.markdown("""
+<style>
+/* Make table text visible in dark mode */
+.stDataFrame, .stDataFrame table, .dataframe tbody tr td, .dataframe thead tr th {
+    color: #ffffff !important;      /* white text */
+    background-color: #111111 !important; /* dark bg */
+}
+
+/* Input fields text */
+input, textarea {
+    color: #ffffff !important;
+}
+
+/* Buttons */
+.stButton>button {
+    color: #ffffff !important;
+    background-color: #333333 !important;
+    border-radius: 8px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 
 st.title("📸 JPEG 1st Year Free Slot Finder")
 st.caption("Select a day and time to see who's available (24-hour format)")

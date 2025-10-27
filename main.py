@@ -90,7 +90,15 @@ def check_availability(day, start, end):
     return free_members
 
 # -------------------- UI --------------------
-st.title("JPEG 1st Years Slot Availablity")
+st.markdown("""
+<div style="text-align:center; font-size:28px; font-weight:bold;">
+JPEG 1st Years Slot Availability
+</div>
+<div style="text-align:center; font-size:18px;">
+Please follow 24-hour format
+</div>
+""", unsafe_allow_html=True)
+
 
 day = st.selectbox("Select Day", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])
 time_range = st.text_input("Enter time slot (e.g., 9-12)").strip()

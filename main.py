@@ -90,34 +90,60 @@ def check_availability(day, start, end):
     return free_members
 
 # -------------------- UI --------------------
-st.markdown("""
-<div style="text-align:center; font-size:28px; font-weight:bold;">
-JPEG 1st Years Slot Availability
-</div>
-<div style="text-align:center; font-size:18px;">
-Please follow 24-hour format
-</div>
-""", unsafe_allow_html=True)
+import streamlit as st
 
+st.set_page_config(page_title="JPEG Availability", page_icon="📸", layout="centered")
 
-day = st.selectbox("Select Day", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])
-time_range = st.text_input("Enter time slot (e.g., 9-12)").strip()
+def card(text, color):
+    st.markdown(
+        f"""
+        <div style="
+            background:{color};
+            padding:12px 18px;
+            border-radius:12px;
+            margin-bottom:8px;
+            font-size:16px;
+            border:1px solid #dadada;">
+            {text}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+st.title("📸 JPEG 1st Year Free Slot Finder")
+st.caption("Select a day and time to see who's available (24-hour format)")
+
+day = st.selectbox("Select Day", ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"])
+time_range = st.text_input("Enter time slot (e.g., 9-12)")
+
+def check_availability(day, start, end):
+    free_members = []
+    for name, schedule in availability.items():
+        if day in schedule:
+            for slot in schedule[day]:
+                s, e = slot
+                if start >= s and end <= e:
+                    free_members.append(name)
+                    break
+    return free_members
 
 if time_range:
     try:
         start, end = map(int, time_range.split('-'))
-        
-        st.markdown(f"### ✅ Members free for the whole slot {start}:00 - {end}:00")
+
+        st.markdown("---")
+        st.subheader(f"✅ Members free for full slot {start}:00 - {end}:00")
+
         full_free = check_availability(day, start, end)
 
         if full_free:
             for m in full_free:
-                st.write(f"- {m}")
+                card(m, "#d1ffd6")  # greenish card
         else:
-            st.write("No one free for the full duration.")
+            card("No one free for the whole slot.", "#ffd1d1")
 
         st.markdown("---")
-        st.markdown("### ⏱ Hour-by-Hour Availability")
+        st.subheader("⏱ Hour-by-Hour Availability")
 
         current = start
         while current < end:
@@ -127,10 +153,11 @@ if time_range:
             st.markdown(f"**{current}:00 - {next_hour}:00**")
             if hour_members:
                 for m in hour_members:
-                    st.write(f"- {m}")
+                    card(m, "#e8f0ff")  # light blue card
             else:
-                st.write("❌ No one free")
+                card("No one free in this hour", "#ffd1d1")
+
             current += 1
 
     except:
-        st.error("Invalid time format! Use: 9-12")
+        st.error("⚠️ Use format like 9-12")

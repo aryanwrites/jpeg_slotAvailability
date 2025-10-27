@@ -106,18 +106,6 @@ availability = {
     }
 }
 
-def check_availability(day, start, end):
-    free_members = []
-
-    for name, schedule in availability.items():
-        if day in schedule:
-            for slot in schedule[day]:
-                s, e = slot
-                if start >= s and end <= e:
-                    free_members.append(name)
-                    break
-
-    return free_members
 
 # -------------------- UI --------------------
 import streamlit as st
@@ -142,7 +130,15 @@ def card(text, color="#1e1e1e"):
 st.title("📸 JPEG 1st Year Free Slot Finder")
 st.caption("Select a day and time to see who's available (24-hour format)")
 
-day = st.selectbox("Select Day", ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"])
+
+#  option = st.selectbox(
+# ...     "How would you like to be contacted?",
+# ...     ("Email", "Home phone", "Mobile phone"),
+# ...     index=None,
+# ...     placeholder="Select contact method...",
+# ... )
+
+day = st.selectbox("Select Day", ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"], index=None , placeholder= "Select Weekdays" )
 time_range = st.text_input("Enter time slot (e.g., 9-12)")
 
 def check_availability(day, start, end):
